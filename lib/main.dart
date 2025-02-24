@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/views/Login&SignUp/SplashScreen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => ChnageScreenProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
