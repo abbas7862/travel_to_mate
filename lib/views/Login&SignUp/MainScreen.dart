@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:travel_to_mate/CustomWidgets/MainScreenPolyGon.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
 import 'package:travel_to_mate/views/traveler/MainTravelerScreen.dart';
+import 'package:travel_to_mate/views/traveler_agency/TravelerGencySignUpScreen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -74,7 +75,11 @@ class _MainScreenState extends State<MainScreen> {
             height: MediaQuery.of(context).size.height * 0.040,
           ),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return TravelerAgencySignUpScreen();
+              }));
+            },
             child: Text(
               'Traveler Agency',
               style: TextStyle(color: Colors.white),
