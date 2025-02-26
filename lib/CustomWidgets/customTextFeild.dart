@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class CustomTextFeild extends StatelessWidget {
+  final TextEditingController? controller;
   final String hintText;
   const CustomTextFeild({
+    this.controller,
     required this.hintText,
     super.key,
   });
@@ -21,6 +23,7 @@ class CustomTextFeild extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: TextField(
+            controller: controller,
             textAlignVertical: TextAlignVertical.center,
             decoration: InputDecoration(
               border: InputBorder.none,
