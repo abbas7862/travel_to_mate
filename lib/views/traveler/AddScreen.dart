@@ -1,4 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
+import 'package:travel_to_mate/StateMangment/imageSelector.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -8,8 +17,112 @@ class AddScreen extends StatefulWidget {
 }
 
 class _AddScreenState extends State<AddScreen> {
+  TextEditingController discriptionController = TextEditingController();
+  File? _seletectImage;
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      Provider.of<Imageselector>(context, listen: false)
+          .selectImage(File(pickedFile.path));
+    }
+  }
+
+  Future<String> _uploadImage(File imageFile) async {
+    final supabase = Supabase.instance.client;
+    final user = supabase.auth.currentUser;
+
+    if (user == null) {
+      throw Exception("User  not logged in");
+    }
+
+    try {
+      final fileName = "${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+      await supabase.storage.from('post_images').upload(fileName, imageFile);
+
+      final imageUrl =
+          supabase.storage.from('post_images').getPublicUrl(fileName);
+
+      return imageUrl;
+    } catch (e) {
+      throw Exception("Image upload failed: ${e.toString()}");
+    }
+  }
+
+  Future<void> _uploadPost() async {
+    final navigator = Provider.of<ChnageScreenProvider>(context, listen: false);
+    print('Post was tapped');
+
+    final supabase = Supabase.instance.client;
+    final user = supabase.auth.currentUser;
+
+    if (user == null ||
+        _seletectImage == null ||
+        discriptionController.text.isEmpty) {
+      Fluttertoast.showToast(
+          msg: "Please select an image and enter a description.");
+      return;
+    }
+
+    try {
+      final imageUrl = await _uploadImage(_seletectImage!);
+      await supabase.from('traveler_posts').insert({
+        'user_id': user.id,
+        'post_image': imageUrl,
+        'description': discriptionController.text.trim(),
+        'created_at': DateTime.now().toIso8601String(),
+      });
+      Fluttertoast.showToast(msg: "Post uploaded successfully!");
+      navigator.updateIndex(0);
+      print("File path after upload: $imageUrl");
+      discriptionController.clear();
+      Provider.of<Imageselector>(context, listen: false).selectImage(null);
+    } catch (e) {
+      print("Error uploading post: $e");
+      Fluttertoast.showToast(msg: "Unable to Upload post: ${e.toString()}");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    _seletectImage = Provider.of<Imageselector>(context).image;
+
+    return Scaffold(
+      appBar: AppBar(title: Text("Create Post")),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TextField(
+                controller: discriptionController,
+                decoration: InputDecoration(labelText: "Enter Description"),
+              ),
+              SizedBox(height: 10),
+              _seletectImage != null
+                  ? Image.file(_seletectImage!,
+                      height: 200, width: double.infinity, fit: BoxFit.cover)
+                  : Text("No image selected"),
+              SizedBox(height: 10),
+              ElevatedButton.icon(
+                onPressed: pickImage,
+                icon: Icon(Icons.image),
+                label: Text("Pick Image"),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  print('Post was tapped');
+                  _uploadPost();
+                },
+                child: Text("Post"),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

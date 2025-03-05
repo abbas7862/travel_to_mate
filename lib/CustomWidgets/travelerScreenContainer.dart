@@ -5,8 +5,10 @@ class TravelerScreenContainer extends StatefulWidget {
   final String name;
   final ImageProvider image;
   final ImageProvider image2;
+  final String description;
   const TravelerScreenContainer({
     required this.image,
+    required this.description,
     required this.image2,
     required this.name,
     super.key,
@@ -27,7 +29,10 @@ class _TravelerScreenContainerState extends State<TravelerScreenContainer> {
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 10),
-                child: Image(image: widget.image),
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.05,
+                    height: MediaQuery.of(context).size.height * 0.025,
+                    child: Image(image: widget.image)),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10),
@@ -38,9 +43,23 @@ class _TravelerScreenContainerState extends State<TravelerScreenContainer> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: Container(
-              child: Image(
-                image: widget.image2,
-                fit: BoxFit.cover,
+              width: double.infinity,
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Image(
+                  image: widget.image2,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: AutoSizeText(
+                widget.description,
+                style: TextStyle(fontSize: 14, color: Colors.black54),
               ),
             ),
           ),

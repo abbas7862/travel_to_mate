@@ -1,8 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:travel_to_mate/CustomWidgets/customTextFeild.dart';
-import 'package:travel_to_mate/Firebase/authentication.dart';
+import 'package:travel_to_mate/Supabase/authentication.dart';
+
 import 'package:travel_to_mate/views/Login&SignUp/SignupScreen.dart';
 import 'package:travel_to_mate/views/traveler/MainTravelerScreen.dart';
 
@@ -114,13 +116,17 @@ class _LogInScreenState extends State<LogInScreen> {
                     }
 
                     try {
-                      await Authentication().loginUser(email, password);
+                      bool isLoggedIn =
+                          await Authentication().logIn(email, password);
 
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MainNavigationScreen()),
-                      );
+                      if (isLoggedIn) {
+                        Fluttertoast.showToast(msg: "Login successful!");
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MainNavigationScreen()),
+                        );
+                      }
                     } catch (e) {
                       Fluttertoast.showToast(
                           msg: e.toString(), gravity: ToastGravity.TOP);

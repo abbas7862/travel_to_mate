@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:travel_to_mate/CustomWidgets/customBtn.dart';
 import 'package:travel_to_mate/CustomWidgets/customTextFeild.dart';
-import 'package:travel_to_mate/Firebase/authentication.dart';
+import 'package:travel_to_mate/Supabase/authentication.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
-import 'package:travel_to_mate/views/traveler_agency/TravelerAgencyMainScreenNavigation.dart';
+import 'package:travel_to_mate/views/traveler/MainTravelerScreen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -168,16 +168,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              TravelAgencyMainNavigationScreen(),
+                          builder: (context) => MainNavigationScreen(),
                         ),
                       );
-                    } catch (error) {
-                      print(
-                          "SignUp Error: $error"); // Logs error to the console
-                      Fluttertoast.showToast(
-                          msg: error.toString(), gravity: ToastGravity.TOP);
-                    }
+                    } catch (error) {}
                   },
                 ),
                 SizedBox(

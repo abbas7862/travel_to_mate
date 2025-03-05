@@ -2,7 +2,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_to_mate/CustomWidgets/MainScreenPolyGon.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
-import 'package:travel_to_mate/views/traveler/MainTravelerScreen.dart';
 import 'package:travel_to_mate/views/traveler_agency/TravelerGencySignUpScreen.dart';
 
 class MainScreen extends StatefulWidget {
