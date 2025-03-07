@@ -1,16 +1,19 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_to_mate/CustomWidgets/customTextFeild.dart';
-import 'package:travel_to_mate/views/traveler_agency/TravelerAgenecyScreen3.dart';
+import 'package:travel_to_mate/views/traveler_agency/TravelerAgencyMainScreenNavigation.dart';
+import 'package:travel_to_mate/views/traveler_agency/TravelerGencySignUpScreen.dart';
 
-class TravelerAgencyScreen2 extends StatefulWidget {
-  const TravelerAgencyScreen2({super.key});
+class TravelerAgencyLogInScreen extends StatefulWidget {
+  const TravelerAgencyLogInScreen({super.key});
 
   @override
-  State<TravelerAgencyScreen2> createState() => _TravelerAgencyScreen2State();
+  State<TravelerAgencyLogInScreen> createState() =>
+      _TravelerAgencySignUpScreenState();
 }
 
-class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
+class _TravelerAgencySignUpScreenState
+    extends State<TravelerAgencyLogInScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,7 +59,7 @@ class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AutoSizeText(
-                      "Name",
+                      "Email",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -66,13 +69,13 @@ class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
                       height: MediaQuery.of(context).size.height * 0.010,
                     ),
                     CustomTextFeild(
-                      hintText: "Enter Your Agency Name",
+                      hintText: "Enter Your Email",
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.020,
                     ),
                     AutoSizeText(
-                      "Owner",
+                      "Password",
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 18,
@@ -82,23 +85,10 @@ class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
                       height: MediaQuery.of(context).size.height * 0.010,
                     ),
                     CustomTextFeild(
-                      hintText: "Enter Your Owner Name",
+                      hintText: "Enter Your Password",
                     ),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * 0.020,
-                    ),
-                    AutoSizeText(
-                      "Address",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.010,
-                    ),
-                    CustomTextFeild(
-                      hintText: "Enter your Office Address",
                     ),
                   ],
                 ),
@@ -109,7 +99,7 @@ class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return Traveleragenecyscreen3();
+                    return TravelAgencyMainNavigationScreen();
                   }));
                 },
                 child: Text(
@@ -125,6 +115,39 @@ class _TravelerAgencyScreen2State extends State<TravelerAgencyScreen2> {
                     )),
                     backgroundColor:
                         MaterialStatePropertyAll(Color(0xFF088F8F))),
+              ),
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.020,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AutoSizeText(
+                    " Have an account?",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return TravelerAgencySignUpScreen();
+                      }));
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 5),
+                      child: AutoSizeText(
+                        "Sign Up",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

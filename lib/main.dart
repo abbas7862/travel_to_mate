@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
+import 'package:travel_to_mate/StateMangment/agencySignUpProvider.dart';
 import 'package:travel_to_mate/StateMangment/imageSelector.dart';
+import 'package:travel_to_mate/StateMangment/postProvider.dart';
+import 'package:travel_to_mate/StateMangment/updateProfileProvider.dart';
+import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
 
 import 'package:travel_to_mate/views/Login&SignUp/SplashScreen.dart';
 
@@ -18,6 +22,10 @@ void main() async {
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => ChnageScreenProvider()),
     ChangeNotifierProvider(create: (_) => Imageselector()),
+    ChangeNotifierProvider(create: (_) => TravelerPostProvider()),
+    ChangeNotifierProvider(create: (_) => UserPostProvider()),
+    ChangeNotifierProvider(create: (_) => ProfileProvider()),
+    ChangeNotifierProvider(create: (_) => TravelerAgencyProvider()),
   ], child: const MyApp()));
 }
 

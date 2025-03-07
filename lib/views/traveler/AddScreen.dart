@@ -75,6 +75,7 @@ class _AddScreenState extends State<AddScreen> {
         'created_at': DateTime.now().toIso8601String(),
       });
       Fluttertoast.showToast(msg: "Post uploaded successfully!");
+
       navigator.updateIndex(0);
       print("File path after upload: $imageUrl");
       discriptionController.clear();
