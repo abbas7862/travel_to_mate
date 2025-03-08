@@ -11,6 +11,10 @@ class AgenciesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final plansProvider = Provider.of<BookingProvider>(context);
 
+    Future<void> _refreshPlans() async {
+      await plansProvider.fetchPlans(); // Call the function to fetch data again
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -21,27 +25,30 @@ class AgenciesScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: plansProvider.isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : plansProvider.plans.isEmpty
-              ? const Center(child: Text("No plans available."))
-              : ListView.builder(
-                  itemCount: plansProvider.plans.length,
-                  itemBuilder: (context, index) {
-                    final plan = plansProvider.plans[index];
-                    print("Plan $index: $plan"); // Debugging: Print each plan
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: AgencyContainer(
-                        agencyImg: NetworkImage(plan['image'] ?? ""),
-                        img: NetworkImage(plan['image'] ?? ""),
-                        agencyName: plan['title'] ?? "Unknown",
-                        shortDesc: plan['short_description'] ?? "",
-                        planDetails: plan,
-                      ),
-                    );
-                  },
-                ),
+      body: RefreshIndicator(
+        onRefresh: _refreshPlans, // Triggered when user pulls down
+        child: plansProvider.isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : plansProvider.plans.isEmpty
+                ? const Center(child: Text("No plans available."))
+                : ListView.builder(
+                    itemCount: plansProvider.plans.length,
+                    itemBuilder: (context, index) {
+                      final plan = plansProvider.plans[index];
+                      print("Plan $index: $plan");
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: AgencyContainer(
+                          agencyImg: NetworkImage(plan['image'] ?? ""),
+                          img: NetworkImage(plan['image'] ?? ""),
+                          agencyName: plan['title'] ?? "Unknown",
+                          shortDesc: plan['short_description'] ?? "",
+                          planDetails: plan,
+                        ),
+                      );
+                    },
+                  ),
+      ),
     );
   }
 }

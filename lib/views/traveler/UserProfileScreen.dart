@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
 import 'package:travel_to_mate/constants/colors.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
@@ -57,6 +58,11 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           await Supabase.instance.client.auth.signOut();
+                          final navigationProvider =
+                              Provider.of<ChnageScreenProvider>(context,
+                                  listen: false);
+
+                          navigationProvider.resetIndex();
                           Navigator.pop(context);
                         },
                         child: AutoSizeText('Logout',

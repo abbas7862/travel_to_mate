@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/CustomWidgets/customBtn.dart';
+import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/StateMangment/agencyProfileProvider.dart';
 import 'package:travel_to_mate/constants/colors.dart';
 
@@ -62,6 +63,11 @@ class TravelerAgencyUserProfileScreen extends StatelessWidget {
                 Spacer(),
                 CustomBtn(
                     onTap: () async {
+                      final navigationProvider =
+                          Provider.of<ChnageScreenProvider>(context,
+                              listen: false);
+
+                      navigationProvider.resetIndex();
                       await Supabase.instance.client.auth.signOut();
                       Navigator.pop(context);
                     },

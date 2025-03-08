@@ -65,10 +65,15 @@ class _PlanScreenState extends State<MainPlanScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AutoSizeText(
-                'Tour Plan',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+              Align(
+                alignment: Alignment.center,
+                child: AutoSizeText(
+                  'Tour Plan',
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(height: 20),
               // Title
@@ -170,67 +175,77 @@ class _PlanScreenState extends State<MainPlanScreen> {
               ),
               SizedBox(height: 20),
               // Add Image
-              AutoSizeText(
-                "Add Image",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500),
+              Align(
+                alignment: Alignment.center,
+                child: AutoSizeText(
+                  "Add Image",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(height: 10),
-              GestureDetector(
-                onTap: _pickImage,
-                child: _imageFile != null
-                    ? Image.file(
-                        _imageFile!,
-                        height: 150,
-                        width: 150,
-                        fit: BoxFit.cover,
-                      )
-                    : Icon(
-                        Icons.add_a_photo_outlined,
-                        size: 40,
-                      ),
+              Align(
+                alignment: Alignment.center,
+                child: GestureDetector(
+                  onTap: _pickImage,
+                  child: _imageFile != null
+                      ? Image.file(
+                          _imageFile!,
+                          height: 150,
+                          width: 150,
+                          fit: BoxFit.cover,
+                        )
+                      : Icon(
+                          Icons.add_a_photo_outlined,
+                          size: 40,
+                        ),
+                ),
               ),
               SizedBox(height: 20),
               // Submit Button
-              ElevatedButton(
-                onPressed: () async {
-                  final title = titleController.text;
-                  final description = descriptionController.text;
-                  final destination = destinationController.text;
-                  final duration = durationController.text;
-                  final facilities = facilitiesController.text.split(',');
-                  final contactNumber = contactNumberController.text;
-                  final amount = double.tryParse(amountController.text) ?? 0.0;
+              Align(
+                alignment: Alignment.center,
+                child: ElevatedButton(
+                  onPressed: () async {
+                    final title = titleController.text;
+                    final description = descriptionController.text;
+                    final destination = destinationController.text;
+                    final duration = durationController.text;
+                    final facilities = facilitiesController.text.split(',');
+                    final contactNumber = contactNumberController.text;
+                    final amount =
+                        double.tryParse(amountController.text) ?? 0.0;
 
-                  final planProvider =
-                      Provider.of<PlanProvider>(context, listen: false);
-                  await planProvider.submitPlan(
-                    context: context,
-                    title: title,
-                    description: description,
-                    destination: destination,
-                    duration: duration,
-                    facilities: facilities,
-                    contactNumber: contactNumber,
-                    amount: amount,
-                    imageFile: _imageFile,
-                  );
-                },
-                child: Text(
-                  'Upload and Submit',
-                  style: TextStyle(color: Colors.white),
+                    final planProvider =
+                        Provider.of<PlanProvider>(context, listen: false);
+                    await planProvider.submitPlan(
+                      context: context,
+                      title: title,
+                      description: description,
+                      destination: destination,
+                      duration: duration,
+                      facilities: facilities,
+                      contactNumber: contactNumber,
+                      amount: amount,
+                      imageFile: _imageFile,
+                    );
+                  },
+                  child: Text(
+                    'Upload and Submit',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ButtonStyle(
+                      padding: MaterialStatePropertyAll(
+                        EdgeInsets.symmetric(horizontal: 70, vertical: 10),
+                      ),
+                      shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(7),
+                      )),
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xFF088F8F))),
                 ),
-                style: ButtonStyle(
-                    padding: MaterialStatePropertyAll(
-                      EdgeInsets.symmetric(horizontal: 70, vertical: 10),
-                    ),
-                    shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7),
-                    )),
-                    backgroundColor:
-                        MaterialStatePropertyAll(Color(0xFF088F8F))),
               ),
             ],
           ),
