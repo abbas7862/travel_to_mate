@@ -16,10 +16,11 @@ class TravelerPostProvider extends ChangeNotifier {
     try {
       final response = await supabase
           .from('traveler_posts')
-          .select('post_image, description, users (profile_pic, name)')
+          .select('post_image,id, description, users (profile_pic, name)')
           .order('created_at', ascending: false);
 
       _posts = response.map((post) {
+        post['id'] = post['id'];
         post['post_image'] = _getPublicUrl(post['post_image']);
         post['users']['profile_pic'] =
             _getPublicUrl(post['users']['profile_pic']);

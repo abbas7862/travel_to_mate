@@ -29,6 +29,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             Text('Travel ', style: TextStyle(color: AppColors.primaryColor)),

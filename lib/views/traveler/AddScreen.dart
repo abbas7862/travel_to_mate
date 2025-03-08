@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/StateMangment/imageSelector.dart';
+import 'package:travel_to_mate/constants/colors.dart';
 
 class AddScreen extends StatefulWidget {
   const AddScreen({super.key});
@@ -91,37 +92,106 @@ class _AddScreenState extends State<AddScreen> {
     _seletectImage = Provider.of<Imageselector>(context).image;
 
     return Scaffold(
-      appBar: AppBar(title: Text("Create Post")),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('Travel ',
+                style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold)),
+            Text('Mate',
+                style: TextStyle(
+                    color: AppColors.secondaryColor,
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold)),
+          ],
+        ),
+        centerTitle: true,
+        elevation: 2,
+      ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              TextField(
-                controller: discriptionController,
-                decoration: InputDecoration(labelText: "Enter Description"),
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Create a Post",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87)),
+            const SizedBox(height: 10),
+            TextField(
+              controller: discriptionController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                labelText: "Enter Description",
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                filled: true,
+                fillColor: Colors.grey[100],
               ),
-              SizedBox(height: 10),
-              _seletectImage != null
-                  ? Image.file(_seletectImage!,
-                      height: 200, width: double.infinity, fit: BoxFit.cover)
-                  : Text("No image selected"),
-              SizedBox(height: 10),
-              ElevatedButton.icon(
+            ),
+            const SizedBox(height: 15),
+            _seletectImage != null
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.file(_seletectImage!,
+                        height: 200, width: double.infinity, fit: BoxFit.cover),
+                  )
+                : Container(
+                    height: 200,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.grey),
+                      color: Colors.grey[200],
+                    ),
+                    child: const Center(
+                      child: Text("No image selected",
+                          style: TextStyle(color: Colors.grey)),
+                    ),
+                  ),
+            const SizedBox(height: 15),
+            Center(
+              child: ElevatedButton.icon(
                 onPressed: pickImage,
-                icon: Icon(Icons.image),
-                label: Text("Pick Image"),
+                icon: const Icon(Icons.image, color: Colors.white),
+                label: const Text("Pick Image",
+                    style: TextStyle(color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
               ),
-              SizedBox(height: 10),
-              ElevatedButton(
+            ),
+            const SizedBox(height: 15),
+            Center(
+              child: ElevatedButton(
                 onPressed: () {
                   print('Post was tapped');
                   _uploadPost();
                 },
-                child: Text("Post"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.secondaryColor,
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                ),
+                child: const Text("Post",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold)),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

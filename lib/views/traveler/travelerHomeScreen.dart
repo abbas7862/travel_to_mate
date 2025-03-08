@@ -71,34 +71,48 @@ class _TravelerHomeScreenState extends State<TravelerHomeScreen> {
     final postProvider = context.watch<TravelerPostProvider>();
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
-            Text('Travel ', style: TextStyle(color: AppColors.primaryColor)),
-            Text('Mate', style: TextStyle(color: AppColors.secondaryColor)),
+            Text('Travel ',
+                style: TextStyle(
+                    color: AppColors.primaryColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            Text('Mate',
+                style: TextStyle(
+                    color: AppColors.secondaryColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
           ],
         ),
-        actions: [Icon(Icons.notifications)],
+        centerTitle: true,
+        elevation: 2,
       ),
       body: RefreshIndicator(
         onRefresh: () => postProvider.fetchPosts(),
         child: postProvider.isLoading
-            ? Center(child: CircularProgressIndicator())
+            ? const Center(child: CircularProgressIndicator())
             : postProvider.posts.isEmpty
-                ? Center(child: Text("No posts available"))
+                ? const Center(
+                    child: Text(
+                      "No posts available",
+                      style: TextStyle(fontSize: 16, color: Colors.black54),
+                    ),
+                  )
                 : ListView.builder(
-                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     itemCount: postProvider.posts.length,
                     itemBuilder: (context, index) {
                       final post = postProvider.posts[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: TravelerScreenContainer(
-                          image:
-                              NetworkImage(post['users']['profile_pic'] ?? ""),
-                          image2: NetworkImage(post['post_image'] ?? ""),
-                          name: post['users']['name'] ?? "Anonymous Traveler",
-                          description: post['description'] ?? "",
-                        ),
+                      print("TravelerHomeScreen - Post Data: $post");
+                      print("Post ID: ${post['id']}");
+                      return TravelerScreenContainer(
+                        postId: post['id'],
+                        image: NetworkImage(post['users']['profile_pic'] ?? ""),
+                        image2: NetworkImage(post['post_image'] ?? ""),
+                        name: post['users']['name'] ?? "Anonymous Traveler",
+                        description: post['description'] ?? "",
                       );
                     },
                   ),

@@ -120,6 +120,8 @@ class _LogInScreenState extends State<LogInScreen> {
                           await Authentication().logIn(email, password);
 
                       if (isLoggedIn) {
+                        emailController.clear();
+                        passwordController.clear();
                         Fluttertoast.showToast(msg: "Login successful!");
                         Navigator.pushReplacement(
                           context,

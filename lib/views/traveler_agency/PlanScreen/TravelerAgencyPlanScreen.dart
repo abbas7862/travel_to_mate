@@ -1,7 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_to_mate/constants/colors.dart';
-import 'package:travel_to_mate/views/traveler_agency/PlanScreen/PlanScreen1.dart';
+import 'package:travel_to_mate/views/traveler_agency/PlanScreen/MainPlanScreen.dart';
 
 class TravelerAgencyPlanScreen extends StatefulWidget {
   const TravelerAgencyPlanScreen({super.key});
@@ -33,7 +33,7 @@ class _TravelerAgencyPlanScreenState extends State<TravelerAgencyPlanScreen> {
         child: GestureDetector(
           onTap: () {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => PlanScreen1()));
+                MaterialPageRoute(builder: (context) => MainPlanScreen()));
           },
           child: Container(
             width: MediaQuery.of(context).size.width * 0.6,

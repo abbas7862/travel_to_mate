@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
 import 'package:travel_to_mate/constants/colors.dart';
+import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
 import 'package:travel_to_mate/views/traveler/UpdateProfileScreen.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -36,13 +37,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Row(
           children: [
             Text('Travel ', style: TextStyle(color: AppColors.primaryColor)),
             Text('Mate', style: TextStyle(color: AppColors.secondaryColor)),
           ],
         ),
-        actions: [Icon(Icons.notifications)],
       ),
       body: userId == null
           ? Center(child: CircularProgressIndicator())
@@ -56,6 +57,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           await Supabase.instance.client.auth.signOut();
+                          Navigator.pop(context);
                         },
                         child: AutoSizeText('Logout',
                             style:

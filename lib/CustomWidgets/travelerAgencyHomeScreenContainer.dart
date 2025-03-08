@@ -5,10 +5,13 @@ class TravelerAgencyHomeScreenContainer extends StatefulWidget {
   final ImageProvider imgLogo;
   final ImageProvider img;
   final String name;
+  final String description;
+
   const TravelerAgencyHomeScreenContainer({
     required this.imgLogo,
     required this.img,
     required this.name,
+    required this.description,
     super.key,
   });
 
@@ -21,48 +24,77 @@ class _TravelerAgencyHomeScreenContainerState
     extends State<TravelerAgencyHomeScreenContainer> {
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return Container(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: Image(image: widget.imgLogo),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: AutoSizeText(widget.name),
-              )
-            ],
+      margin: EdgeInsets.symmetric(
+        horizontal: screenWidth * 0.04, // Adjust margin based on screen width
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            blurRadius: 5,
+            spreadRadius: 2,
+            offset: const Offset(0, 2),
           ),
-          Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10),
-              child: Container(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(15),
+        ],
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(screenWidth * 0.03),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                ClipOval(
                   child: Image(
-                    image: widget.img,
+                    image: widget.imgLogo,
+                    width: screenWidth * 0.12,
+                    height: screenWidth * 0.12,
                     fit: BoxFit.cover,
                   ),
                 ),
-              )),
-          Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Row(children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.yellow,
+                SizedBox(width: screenWidth * 0.03),
+                Expanded(
+                  child: AutoSizeText(
+                    widget.name,
+                    style: TextStyle(
+                      fontSize: screenWidth * 0.045,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                AutoSizeText(
-                  '4.5',
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ]))
-        ],
+              ],
+            ),
+            SizedBox(height: screenWidth * 0.03),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: Image(
+                image: widget.img,
+                width: double.infinity,
+                height: screenWidth * 0.55,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: screenWidth * 0.03),
+            AutoSizeText(
+              widget.description,
+              style: TextStyle(
+                fontSize: screenWidth * 0.04,
+                color: Colors.black87,
+                fontWeight: FontWeight.w400,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
+import 'package:travel_to_mate/StateMangment/ImageProvider.dart';
+import 'package:travel_to_mate/StateMangment/PlanProvider.dart';
+import 'package:travel_to_mate/StateMangment/agencyPostProvider.dart';
+import 'package:travel_to_mate/StateMangment/agencyProfileProvider.dart';
 import 'package:travel_to_mate/StateMangment/agencySignUpProvider.dart';
+import 'package:travel_to_mate/StateMangment/bookingProv2.dart';
+import 'package:travel_to_mate/StateMangment/bookingProvider.dart';
 import 'package:travel_to_mate/StateMangment/imageSelector.dart';
+import 'package:travel_to_mate/StateMangment/likeProvoder.dart';
 import 'package:travel_to_mate/StateMangment/postProvider.dart';
 import 'package:travel_to_mate/StateMangment/updateProfileProvider.dart';
 import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
@@ -26,6 +33,13 @@ void main() async {
     ChangeNotifierProvider(create: (_) => UserPostProvider()),
     ChangeNotifierProvider(create: (_) => ProfileProvider()),
     ChangeNotifierProvider(create: (_) => TravelerAgencyProvider()),
+    ChangeNotifierProvider(create: (_) => CombinedDataProvider()),
+    ChangeNotifierProvider(create: (_) => PlanProvider()),
+    ChangeNotifierProvider(create: (_) => ImageProv()),
+    ChangeNotifierProvider(create: (_) => TravelerAgencyProfileProvider()),
+    ChangeNotifierProvider(create: (_) => BookingProv()),
+    ChangeNotifierProvider(create: (_) => BookingProvider()),
+    ChangeNotifierProvider(create: (_) => LikeProvider()),
   ], child: const MyApp()));
 }
 

@@ -124,6 +124,14 @@ class TravelerAgencyProvider with ChangeNotifier {
       isLoading = true;
       notifyListeners();
 
+      // Step 1: Sign up the user in Supabase Auth
+      final AuthResponse authResponse = await supabase.auth.signUp(
+        email: email,
+        password: password,
+      );
+
+      final String userId = authResponse.user!.id;
+
       String imageUrl = '';
       if (logo != null) {
         final String imagePath =
@@ -133,6 +141,7 @@ class TravelerAgencyProvider with ChangeNotifier {
       }
 
       await supabase.from('agencies').insert({
+        'agency_id': userId,
         'name': agencyName,
         'address': address,
         'contact': contactNumber,
@@ -147,14 +156,14 @@ class TravelerAgencyProvider with ChangeNotifier {
 
       resetForm();
 
-      Navigator.push(
+      // Navigate to the main screen
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) => TravelAgencyMainNavigationScreen(),
         ),
       );
     } catch (e) {
-      // Handle specific Supabase errors
       if (e.toString().contains("duplicate key value")) {
         Fluttertoast.showToast(
             msg: "Email already exists. Please use a different email.");
@@ -170,7 +179,6 @@ class TravelerAgencyProvider with ChangeNotifier {
     }
   }
 
-// Method to reset all fields and states
   void resetForm() {
     email = '';
     password = '';

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:travel_to_mate/CustomWidgets/MainScreenPolyGon.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
+import 'package:travel_to_mate/views/traveler_agency/TravelerAgencyLoginScreen.dart';
 import 'package:travel_to_mate/views/traveler_agency/TravelerGencySignUpScreen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -76,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
           ElevatedButton(
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return TravelerAgencySignUpScreen();
+                return TravelerAgencyLogInScreen();
               }));
             },
             child: Text(

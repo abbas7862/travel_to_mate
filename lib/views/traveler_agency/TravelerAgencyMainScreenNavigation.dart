@@ -19,16 +19,19 @@ class _TravelAgencyMainNavigationScreenState
   final List<Widget> _screen = [
     TravelerAgencyHomeScreen(),
     TravelerAgencyPlanScreen(),
-    TravelerAgencyUserProfileScreen(),
     TravelAgencyNotificationScreen(),
+    TravelerAgencyUserProfileScreen(),
   ];
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<ChnageScreenProvider>(context);
     return Scaffold(
-      body: IndexedStack(
-        index: navigationProvider.getSelectedIndex,
-        children: _screen,
+      body: WillPopScope(
+        onWillPop: () async => false,
+        child: IndexedStack(
+          index: navigationProvider.getSelectedIndex,
+          children: _screen,
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: navigationProvider.getSelectedIndex,

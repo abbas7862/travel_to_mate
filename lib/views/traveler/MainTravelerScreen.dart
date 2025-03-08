@@ -26,24 +26,27 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<ChnageScreenProvider>(context);
-    return Scaffold(
-      body: IndexedStack(
-        index: navigationProvider.getSelectedIndex,
-        children: _screen,
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: navigationProvider.getSelectedIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.black,
-        onTap: (index) => navigationProvider.updateIndex(index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business), label: 'Agencies'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add'),
-          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chatbot'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: IndexedStack(
+          index: navigationProvider.getSelectedIndex,
+          children: _screen,
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: navigationProvider.getSelectedIndex,
+          selectedItemColor: Colors.blue,
+          unselectedItemColor: Colors.black,
+          onTap: (index) => navigationProvider.updateIndex(index),
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.business), label: 'Agencies'),
+            BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add'),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chatbot'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          ],
+        ),
       ),
     );
   }
