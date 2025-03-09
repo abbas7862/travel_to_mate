@@ -114,84 +114,82 @@ class _AddScreenState extends State<AddScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Create a Post",
-                style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87)),
-            const SizedBox(height: 10),
-            TextField(
-              controller: discriptionController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                labelText: "Enter Description",
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-                filled: true,
-                fillColor: Colors.grey[100],
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Create a Post",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black87)),
+              const SizedBox(height: 10),
+              TextField(
+                controller: discriptionController,
+                maxLines: 4,
+                decoration: InputDecoration(
+                  labelText: "Enter Description",
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12)),
+                  filled: true,
+                  fillColor: Colors.grey[100],
+                ),
               ),
-            ),
-            const SizedBox(height: 15),
-            _seletectImage != null
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.file(_seletectImage!,
-                        height: 200, width: double.infinity, fit: BoxFit.cover),
-                  )
-                : Container(
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey),
-                      color: Colors.grey[200],
-                    ),
-                    child: const Center(
-                      child: Text("No image selected",
-                          style: TextStyle(color: Colors.grey)),
-                    ),
+              const SizedBox(height: 15),
+              GestureDetector(
+                onTap: pickImage,
+                child: _seletectImage != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Image.file(_seletectImage!,
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover),
+                      )
+                    : Container(
+                        height: 200,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey),
+                          color: Colors.grey[200],
+                        ),
+                        child: const Center(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.camera_alt, color: Colors.grey),
+                              Text("Select an Image",
+                                  style: TextStyle(color: Colors.grey)),
+                            ],
+                          ),
+                        ),
+                      ),
+              ),
+              const SizedBox(height: 15),
+              const SizedBox(height: 15),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    print('Post was tapped');
+                    _uploadPost();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.secondaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 50, vertical: 14),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
                   ),
-            const SizedBox(height: 15),
-            Center(
-              child: ElevatedButton.icon(
-                onPressed: pickImage,
-                icon: const Icon(Icons.image, color: Colors.white),
-                label: const Text("Pick Image",
-                    style: TextStyle(color: Colors.white)),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
+                  child: const Text("Post",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold)),
                 ),
               ),
-            ),
-            const SizedBox(height: 15),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  print('Post was tapped');
-                  _uploadPost();
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.secondaryColor,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12)),
-                ),
-                child: const Text("Post",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold)),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

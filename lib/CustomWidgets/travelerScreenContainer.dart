@@ -1,7 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
+import 'package:travel_to_mate/CustomWidgets/fullscreenViewer.dart';
 import 'package:travel_to_mate/StateMangment/likeProvoder.dart';
 
 class TravelerScreenContainer extends StatelessWidget {
@@ -10,6 +10,7 @@ class TravelerScreenContainer extends StatelessWidget {
   final ImageProvider image2;
   final String description;
   final String postId;
+  final VoidCallback onDelete; // Callback for delete action
 
   const TravelerScreenContainer({
     required this.postId,
@@ -17,6 +18,7 @@ class TravelerScreenContainer extends StatelessWidget {
     required this.description,
     required this.image2,
     required this.name,
+    required this.onDelete, // Add this parameter
     super.key,
   });
 
@@ -35,7 +37,7 @@ class TravelerScreenContainer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Profile Section
+            // Profile Section with Three-Dots Menu
             Row(
               children: [
                 CircleAvatar(
@@ -55,22 +57,49 @@ class TravelerScreenContainer extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
+                // Three-Dots Menu
+                PopupMenuButton<String>(
+                  icon: const Icon(Icons.more_vert, color: Colors.grey),
+                  onSelected: (value) {
+                    if (value == 'delete') {
+                      onDelete(); // Trigger the delete callback
+                    }
+                  },
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      const PopupMenuItem<String>(
+                        value: 'delete',
+                        child: Text('Delete Post'),
+                      ),
+                    ];
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 10),
 
             // Post Image
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: AspectRatio(
-                aspectRatio: 16 / 9,
-                child: Image(
-                  image: image2,
-                  fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FullScreenImageViewer(imageUrl: image2),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image(
+                    image: image2,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
 
             // Description Text
             AutoSizeText(

@@ -12,6 +12,10 @@ class TravelAgencyNotificationScreen extends StatefulWidget {
 
 class _TravelAgencyNotificationScreenState
     extends State<TravelAgencyNotificationScreen> {
+  Future<void> _refreshNotification() async {
+    _fetchNotifications;
+  }
+
   final supabase = Supabase.instance.client;
 
   @override
@@ -26,38 +30,71 @@ class _TravelAgencyNotificationScreenState
           ],
         ),
       ),
-      body: StreamBuilder<List<Map<String, dynamic>>>(
-        stream: _fetchNotifications(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: RefreshIndicator(
+        onRefresh: () => _refreshNotification(),
+        child: StreamBuilder<List<Map<String, dynamic>>>(
+          stream: _fetchNotifications(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text("No notifications yet"));
-          }
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text("No notifications yet"));
+            }
 
-          final notifications = snapshot.data!;
+            final notifications = snapshot.data!;
 
-          return ListView.builder(
-            itemCount: notifications.length,
-            itemBuilder: (context, index) {
-              final notification = notifications[index];
-              return Card(
-                margin: const EdgeInsets.all(10),
-                child: ListTile(
-                  leading: Icon(
-                      notification['type'] == 'booking'
-                          ? Icons.event_available
-                          : Icons.star,
-                      color: Colors.blue),
-                  title: Text(notification['message']),
-                  subtitle: Text(notification['timestamp']),
-                ),
-              );
-            },
-          );
-        },
+            return ListView.builder(
+              itemCount: notifications.length,
+              itemBuilder: (context, index) {
+                final notification = notifications[index];
+                return Dismissible(
+                  key: Key(notification['timestamp']),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    alignment: Alignment.centerRight,
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: const Icon(Icons.delete, color: Colors.white),
+                  ),
+                  onDismissed: (direction) async {
+                    if (notification['type'] == 'booking') {
+                      // Delete the booking from Supabase
+                      await supabase
+                          .from('bookings')
+                          .delete()
+                          .eq('booked_at', notification['timestamp']);
+                    } else if (notification['type'] == 'review') {
+                      // Delete the review from Supabase
+                      await supabase
+                          .from('reviews')
+                          .delete()
+                          .eq('created_at', notification['timestamp']);
+                    }
+
+                    // Remove the notification from the list
+                    setState(() {
+                      notifications.removeAt(index);
+                    });
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.all(10),
+                    child: ListTile(
+                      leading: Icon(
+                          notification['type'] == 'booking'
+                              ? Icons.event_available
+                              : Icons.star,
+                          color: Colors.blue),
+                      title: Text(notification['message']),
+                      subtitle: Text(notification['timestamp']),
+                    ),
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }

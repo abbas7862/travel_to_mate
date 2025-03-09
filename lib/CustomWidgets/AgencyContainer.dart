@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/CustomWidgets/bookingPop.dart';
+import 'package:travel_to_mate/views/traveler/PlanDetailScreen.dart';
 
 class AgencyContainer extends StatefulWidget {
   final ImageProvider agencyImg;
@@ -26,9 +27,8 @@ class AgencyContainer extends StatefulWidget {
 }
 
 class _AgencyContainerState extends State<AgencyContainer> {
-  double _currentRating = 0; // Stores selected rating
+  double _currentRating = 0;
 
-  // Function to submit rating to Supabase
   Future<void> _submitRating(double rating) async {
     final supabase = Supabase.instance.client;
     final userId = supabase.auth.currentUser?.id;
@@ -70,7 +70,6 @@ class _AgencyContainerState extends State<AgencyContainer> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // **Agency Info**
           ListTile(
             leading: CircleAvatar(
               backgroundImage: widget.agencyImg,
@@ -91,14 +90,13 @@ class _AgencyContainerState extends State<AgencyContainer> {
             child: Image(
               image: widget.img,
               width: double.infinity,
-              height: 180, // Fixed height for uniform cards
+              height: 180,
               fit: BoxFit.cover,
             ),
           ),
 
           const SizedBox(height: 8),
 
-          // **Rating Bar**
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: Row(
@@ -127,14 +125,15 @@ class _AgencyContainerState extends State<AgencyContainer> {
 
           const SizedBox(height: 8),
 
-          // **Book Now Button**
           Center(
             child: ElevatedButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) =>
-                      BookingPopup(planDetails: widget.planDetails),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        PlanDetailsScreen(planDetails: widget.planDetails),
+                  ),
                 );
               },
               style: ElevatedButton.styleFrom(

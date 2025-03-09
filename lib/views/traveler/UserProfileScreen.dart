@@ -2,6 +2,8 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:travel_to_mate/CustomWidgets/ProfileScreenView.dart';
+import 'package:travel_to_mate/CustomWidgets/fullscreenViewer.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
 import 'package:travel_to_mate/constants/colors.dart';
@@ -126,10 +128,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                                 itemCount: postProvider.userPosts.length,
                                 itemBuilder: (context, index) {
                                   final post = postProvider.userPosts[index];
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(10),
-                                    child: Image.network(post['post_image'],
-                                        fit: BoxFit.cover),
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ProfileFullScreen(
+                                                  imageUrl: post['post_image']),
+                                        ),
+                                      );
+                                    },
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(post['post_image'],
+                                          fit: BoxFit.cover),
+                                    ),
                                   );
                                 },
                               ),

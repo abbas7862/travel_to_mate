@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:travel_to_mate/CustomWidgets/fullscreenViewer.dart';
 
 class TravelerAgencyHomeScreenContainer extends StatefulWidget {
   final ImageProvider imgLogo;
@@ -28,7 +29,7 @@ class _TravelerAgencyHomeScreenContainerState
 
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: screenWidth * 0.04, // Adjust margin based on screen width
+        horizontal: screenWidth * 0.04,
         vertical: 10,
       ),
       decoration: BoxDecoration(
@@ -73,13 +74,25 @@ class _TravelerAgencyHomeScreenContainerState
               ],
             ),
             SizedBox(height: screenWidth * 0.03),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Image(
-                image: widget.img,
-                width: double.infinity,
-                height: screenWidth * 0.55,
-                fit: BoxFit.cover,
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        FullScreenImageViewer(imageUrl: widget.img),
+                  ),
+                );
+              },
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(8),
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: Image(
+                    image: widget.img,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             SizedBox(height: screenWidth * 0.03),

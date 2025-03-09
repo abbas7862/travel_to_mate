@@ -25,29 +25,50 @@ class AgenciesScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: RefreshIndicator(
-        onRefresh: _refreshPlans, // Triggered when user pulls down
-        child: plansProvider.isLoading
-            ? const Center(child: CircularProgressIndicator())
-            : plansProvider.plans.isEmpty
-                ? const Center(child: Text("No plans available."))
-                : ListView.builder(
-                    itemCount: plansProvider.plans.length,
-                    itemBuilder: (context, index) {
-                      final plan = plansProvider.plans[index];
-                      print("Plan $index: $plan");
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: AgencyContainer(
-                          agencyImg: NetworkImage(plan['image'] ?? ""),
-                          img: NetworkImage(plan['image'] ?? ""),
-                          agencyName: plan['title'] ?? "Unknown",
-                          shortDesc: plan['short_description'] ?? "",
-                          planDetails: plan,
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: "Search by agency name...",
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+              onChanged: (query) {
+                plansProvider.searchPlans(query); // Update search query
+              },
+            ),
+          ),
+          Expanded(
+            child: RefreshIndicator(
+              onRefresh: _refreshPlans, // Triggered when user pulls down
+              child: plansProvider.isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : plansProvider.plans.isEmpty
+                      ? const Center(child: Text("No plans available."))
+                      : ListView.builder(
+                          itemCount: plansProvider.plans.length,
+                          itemBuilder: (context, index) {
+                            final plan = plansProvider.plans[index];
+                            print("Plan $index: $plan");
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10),
+                              child: AgencyContainer(
+                                agencyImg: NetworkImage(plan['image'] ?? ""),
+                                img: NetworkImage(plan['image'] ?? ""),
+                                agencyName: plan['title'] ?? "Unknown",
+                                shortDesc: plan['short_description'] ?? "",
+                                planDetails: plan,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ),
+            ),
+          ),
+        ],
       ),
     );
   }
