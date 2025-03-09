@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/CustomWidgets/fullscreenViewer.dart';
 import 'package:travel_to_mate/StateMangment/likeProvoder.dart';
 
@@ -10,7 +11,7 @@ class TravelerScreenContainer extends StatelessWidget {
   final ImageProvider image2;
   final String description;
   final String postId;
-  final VoidCallback onDelete; // Callback for delete action
+  final VoidCallback onDelete;
 
   const TravelerScreenContainer({
     required this.postId,
@@ -26,7 +27,7 @@ class TravelerScreenContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     final likeProvider = Provider.of<LikeProvider>(context);
     print("TravelerScreenContainer - postId: $postId");
-    print("Is Liked? ${likeProvider.isLiked(postId)}");
+    // print("Is Liked? ${likeProvider.isLiked(postId)}");
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -116,15 +117,21 @@ class TravelerScreenContainer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(Icons.thumb_up,
-                      color: likeProvider.isLiked(postId)
-                          ? Colors.red
-                          : Colors.grey),
-                  onPressed: () {
-                    print(
-                        "Toggling like for postId: $postId"); // Debugging button press
-                    likeProvider.toggleLike(postId);
+                Consumer<LikeProvider>(
+                  builder: (context, likeProvider, child) {
+                    return IconButton(
+                      icon: Icon(
+                        likeProvider.isLiked(postId)
+                            ? Icons.favorite
+                            : Icons.favorite_border,
+                        color: likeProvider.isLiked(postId)
+                            ? Colors.red
+                            : Colors.grey,
+                      ),
+                      onPressed: () {
+                        likeProvider.toggleLike(postId);
+                      },
+                    );
                   },
                 ),
                 IconButton(

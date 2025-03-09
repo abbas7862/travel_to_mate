@@ -60,10 +60,6 @@ class TravelerAgencyUserProfileScreen extends StatelessWidget {
                   leading: Icon(Icons.location_on),
                   title: Text(agency['address']),
                 ),
-                ListTile(
-                  leading: Icon(Icons.phone),
-                  title: Text(agency['contact '].toString()),
-                ),
                 Spacer(),
                 CustomBtn(
                     onTap: () async {

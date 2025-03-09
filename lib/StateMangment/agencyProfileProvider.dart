@@ -23,7 +23,6 @@ class TravelerAgencyProfileProvider extends ChangeNotifier {
         throw Exception('User not logged in');
       }
 
-      // Fetch agency details
       final agencyResponse = await supabase
           .from('agencies')
           .select('*')
@@ -36,7 +35,6 @@ class TravelerAgencyProfileProvider extends ChangeNotifier {
 
       final agencyId = agencyResponse['agency_id'];
 
-      // Fetch all plans associated with the agency
       final plansResponse = await supabase
           .from('plans')
           .select('plan_id')

@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/CustomWidgets/ProfileScreenView.dart';
 import 'package:travel_to_mate/CustomWidgets/fullscreenViewer.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
+import 'package:travel_to_mate/StateMangment/likeProvoder.dart';
 import 'package:travel_to_mate/StateMangment/userPostProvider.dart';
 import 'package:travel_to_mate/constants/colors.dart';
 import 'package:travel_to_mate/views/Login&SignUp/LoginScreen.dart';
@@ -60,11 +61,18 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                       ElevatedButton(
                         onPressed: () async {
                           await Supabase.instance.client.auth.signOut();
+
+                          // ✅ Get the LikeProvider and clear liked posts
+                          final likeProvider =
+                              Provider.of<LikeProvider>(context, listen: false);
+                          likeProvider
+                              .clearLikedPosts(); // Reset likes on logout
+
                           final navigationProvider =
                               Provider.of<ChnageScreenProvider>(context,
                                   listen: false);
-
                           navigationProvider.resetIndex();
+
                           Navigator.pop(context);
                         },
                         child: AutoSizeText('Logout',

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/views/traveler/AddScreen.dart';
 import 'package:travel_to_mate/views/traveler/AgenciesScreen.dart';
-import 'package:travel_to_mate/views/traveler/ChatBotScreen.dart';
 import 'package:travel_to_mate/views/traveler/UserProfileScreen.dart';
-
 import 'package:travel_to_mate/views/traveler/travelerHomeScreen.dart';
+import 'package:travel_to_mate/views/traveler/travelerNotificationScreen.dart';
 
 class MainNavigationScreen extends StatefulWidget {
   const MainNavigationScreen({super.key});
@@ -16,22 +16,32 @@ class MainNavigationScreen extends StatefulWidget {
 }
 
 class _MainNavigationScreenState extends State<MainNavigationScreen> {
-  final List<Widget> _screen = [
-    TravelerHomeScreen(),
-    AgenciesScreen(),
-    AddScreen(),
-    ChatBotScreen(),
-    UserProfileScreen(),
-  ];
+  final supabase = Supabase.instance.client;
+  String? userId;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final navigationProvider = Provider.of<ChnageScreenProvider>(context);
+
+    final List<Widget> screens = [
+      TravelerHomeScreen(),
+      AgenciesScreen(),
+      AddScreen(),
+      LikesNotificationScreen(),
+      UserProfileScreen(),
+    ];
+
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         body: IndexedStack(
           index: navigationProvider.getSelectedIndex,
-          children: _screen,
+          children: screens,
         ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: navigationProvider.getSelectedIndex,
@@ -43,7 +53,8 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.business), label: 'Agencies'),
             BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add'),
-            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chatbot'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.chat), label: 'Notification'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
           ],
         ),
