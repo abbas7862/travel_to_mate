@@ -12,6 +12,11 @@ class LikeProvider extends ChangeNotifier {
     return likedPosts.contains(postId);
   }
 
+  void clearLikedPosts() {
+    likedPosts.clear();
+    notifyListeners();
+  }
+
   Future<void> toggleLike(String postId) async {
     try {
       final userId = supabase.auth.currentUser?.id; // Get logged-in user ID

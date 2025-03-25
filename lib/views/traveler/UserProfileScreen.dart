@@ -38,6 +38,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final postProvider = context.watch<UserPostProvider>();
+    final likeProvider = Provider.of<LikeProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -63,8 +64,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                           await Supabase.instance.client.auth.signOut();
 
                           // ✅ Get the LikeProvider and clear liked posts
-                          final likeProvider =
-                              Provider.of<LikeProvider>(context, listen: false);
+
                           likeProvider
                               .clearLikedPosts(); // Reset likes on logout
 
