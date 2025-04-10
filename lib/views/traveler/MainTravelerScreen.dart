@@ -4,6 +4,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:travel_to_mate/StateMangment/ChangeScreenProvider.dart';
 import 'package:travel_to_mate/views/traveler/AddScreen.dart';
 import 'package:travel_to_mate/views/traveler/AgenciesScreen.dart';
+import 'package:travel_to_mate/views/traveler/ChatBotScreen.dart';
 import 'package:travel_to_mate/views/traveler/UserProfileScreen.dart';
 import 'package:travel_to_mate/views/traveler/travelerHomeScreen.dart';
 import 'package:travel_to_mate/views/traveler/travelerNotificationScreen.dart';
@@ -34,6 +35,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
       AddScreen(),
       LikesNotificationScreen(),
       UserProfileScreen(),
+      ChatBotScreen()
     ];
 
     return WillPopScope(
@@ -54,8 +56,9 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
                 icon: Icon(Icons.business), label: 'Agencies'),
             BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'Add'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.chat), label: 'Notification'),
+                icon: Icon(Icons.notifications), label: 'Notification'),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chat'),
           ],
         ),
       ),

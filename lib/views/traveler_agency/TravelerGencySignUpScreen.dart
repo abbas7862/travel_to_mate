@@ -59,6 +59,7 @@ class TravelerAgencySignUpScreen extends StatelessWidget {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.040,
             ),
+            new_Con(),
             CustomTextFeild(
               controller: emailController,
               hintText: "Email",
@@ -155,5 +156,16 @@ class TravelerAgencySignUpScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class new_Con extends StatelessWidget {
+  const new_Con({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(decoration: BoxDecoration());
   }
 }

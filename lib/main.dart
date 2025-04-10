@@ -9,6 +9,7 @@ import 'package:travel_to_mate/StateMangment/agencyProfileProvider.dart';
 import 'package:travel_to_mate/StateMangment/agencySignUpProvider.dart';
 import 'package:travel_to_mate/StateMangment/bookingProv2.dart';
 import 'package:travel_to_mate/StateMangment/bookingProvider.dart';
+import 'package:travel_to_mate/StateMangment/chatScreenProvider.dart';
 import 'package:travel_to_mate/StateMangment/imageSelector.dart';
 import 'package:travel_to_mate/StateMangment/likeProvoder.dart';
 import 'package:travel_to_mate/StateMangment/postProvider.dart';
@@ -40,6 +41,7 @@ void main() async {
     ChangeNotifierProvider(create: (_) => BookingProv()),
     ChangeNotifierProvider(create: (_) => BookingProvider()),
     ChangeNotifierProvider(create: (_) => LikeProvider()),
+    ChangeNotifierProvider(create: (_) => ChatProvider()),
   ], child: const MyApp()));
 }
 
